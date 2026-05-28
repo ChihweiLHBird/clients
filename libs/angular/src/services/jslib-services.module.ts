@@ -1,6 +1,6 @@
 // FIXME: Update this file to be type safe and remove this and next line
 // @ts-strict-ignore
-import { APP_INITIALIZER, ErrorHandler, LOCALE_ID, NgModule } from "@angular/core";
+import { APP_INITIALIZER, ErrorHandler, Injector, LOCALE_ID, NgModule } from "@angular/core";
 import { Router } from "@angular/router";
 import { Subject } from "rxjs";
 
@@ -1188,6 +1188,7 @@ const safeProviders: SafeProvider[] = [
       InternalPolicyService,
       InternalNewPolicyService,
       AutomaticUserConfirmationService,
+      BillingAccountProfileStateService,
     ],
   }),
   safeProvider({
@@ -1225,8 +1226,27 @@ const safeProviders: SafeProvider[] = [
   }),
   safeProvider({
     provide: InternalPolicyService,
-    useClass: DefaultPolicyService,
-    deps: [StateProvider, OrganizationServiceAbstraction, AccountServiceAbstraction],
+    useFactory: (
+      stateProvider: StateProvider,
+      organizationService: OrganizationServiceAbstraction,
+      accountService: AccountServiceAbstraction,
+      newPolicyService: InternalNewPolicyService,
+      injector: Injector,
+    ) =>
+      new DefaultPolicyService(
+        stateProvider,
+        organizationService,
+        accountService,
+        newPolicyService,
+        () => injector.get(ConfigService),
+      ),
+    deps: [
+      StateProvider,
+      OrganizationServiceAbstraction,
+      AccountServiceAbstraction,
+      InternalNewPolicyService,
+      Injector,
+    ],
   }),
   safeProvider({
     provide: PolicyServiceAbstraction,
@@ -1234,8 +1254,17 @@ const safeProviders: SafeProvider[] = [
   }),
   safeProvider({
     provide: InternalNewPolicyService,
-    useClass: DefaultNewPolicyService,
-    deps: [StateProvider],
+    useFactory: (
+      stateProvider: StateProvider,
+      organizationService: OrganizationServiceAbstraction,
+      injector: Injector,
+    ) =>
+      new DefaultNewPolicyService(
+        stateProvider,
+        () => injector.get(SdkService),
+        organizationService,
+      ),
+    deps: [StateProvider, OrganizationServiceAbstraction, Injector],
   }),
   safeProvider({
     provide: PolicyApiServiceAbstraction,

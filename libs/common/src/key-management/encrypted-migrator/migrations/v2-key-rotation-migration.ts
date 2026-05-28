@@ -157,7 +157,9 @@ export class V2KeyRotationMigration implements EncryptedMigration {
 
   private async userHasV1Attachments(userId: UserId): Promise<boolean> {
     const ciphers = await firstValueFrom(this.cipherService.cipherViews$(userId));
-    return ciphers != null && ciphers.some((c) => c.attachments?.some((a) => a.isLegacyAttachment()));
+    return (
+      ciphers != null && ciphers.some((c) => c.attachments?.some((a) => a.isLegacyAttachment()))
+    );
   }
 
   private async userHasCorruptCiphers(userId: UserId): Promise<boolean> {

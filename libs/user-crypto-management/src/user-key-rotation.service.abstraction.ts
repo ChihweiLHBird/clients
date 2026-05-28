@@ -34,6 +34,8 @@ export abstract class UserKeyRotationService {
    * Rotates the user key and associated encrypted data using the SDK without a master password change.
    * For master password based key rotations the master password should be confirmed by proof of decryption prior to calling this method.
    * @param keyRotationMethod The method to use for key rotation.
+   * @param upgradeTokenAction The action to take for creating an upgrade token if needed for the key rotation.
+   * For manual rotations the expected value is "Skip". "CreateIfNeeded" is expected for background migrations upgrading user from v1 to v2.
    * @param userId The ID of the user.
    * @returns True if the key rotation was successful, false if the user denied trust.
    * @throws If the SDK call fails or the SDK is not available.

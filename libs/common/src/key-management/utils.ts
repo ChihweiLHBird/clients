@@ -5,7 +5,6 @@ import { UserId } from "@bitwarden/user-core";
 
 import { SdkService } from "../platform/abstractions/sdk/sdk.service";
 
-
 export async function firstValueFromOrThrow<T>(
   value: Observable<T | null>,
   name: string,
