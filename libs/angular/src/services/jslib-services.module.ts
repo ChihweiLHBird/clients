@@ -415,6 +415,7 @@ import {
 import { SafeInjectionToken } from "@bitwarden/ui-common";
 import { DefaultUnlockService, UnlockService } from "@bitwarden/unlock";
 import {
+  UserCryptoDialogService,
   UserKeyRotationService,
   UserKeyRotationServiceAbstraction,
 } from "@bitwarden/user-crypto-management";
@@ -564,7 +565,7 @@ const safeProviders: SafeProvider[] = [
   safeProvider({
     provide: UserKeyRotationServiceAbstraction,
     useClass: UserKeyRotationService,
-    deps: [SdkService, LogService, DialogService],
+    deps: [SdkService, LogService, UserCryptoDialogService],
   }),
   safeProvider({
     provide: EncryptedMigrator,
