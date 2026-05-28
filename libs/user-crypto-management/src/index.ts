@@ -3,3 +3,6 @@ export {
   UserKeyRotationService as UserKeyRotationServiceAbstraction,
   TrustVerificationResult,
 } from "./user-key-rotation.service.abstraction";
+export {
+  UserCryptoDialogService,
+} from "./user-crypto-dialog.service.abstraction";
