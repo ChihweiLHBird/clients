@@ -75,7 +75,7 @@ describe("KeyRotationDialogService", () => {
 
       expect(mockUserKeyRotationService.rotateUserKey).toHaveBeenCalledWith(
         { Password: { password: masterPassword } },
-        "Skip",
+        "CreateIfNeeded",
         mockUserId,
       );
       expect(mockToastService.showToast).toHaveBeenCalledWith({
